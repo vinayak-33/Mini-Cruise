@@ -1,0 +1,5 @@
+vinayak,CruiseA,business,0
+vinayak,CruiseA,economy,0
+aryan,CruiseA,business,0
+shishir,CruiseA,business,0
+aman,CruiseA,economy,0
