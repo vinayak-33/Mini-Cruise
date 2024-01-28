@@ -7,6 +7,14 @@
 
 using namespace std;
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+
 const string ADMIN_PASSWORD = "CRUISE123"; // Admin password for adding new cruise
 
 struct Passenger
@@ -43,7 +51,7 @@ vector<Cruise> readCruisesFromFile(const string &filename)
         while (getline(file, line))
         {
             istringstream iss(line);
-            string id, name,departure_time,arrival_time;
+            string id, name, departure_time, arrival_time;
             int economySeats, businessSeats, regularSeats;
 
             if (getline(iss, id, ',') &&
@@ -53,7 +61,7 @@ vector<Cruise> readCruisesFromFile(const string &filename)
                 (iss.ignore(), iss >> regularSeats))
             {
 
-                Cruise cruise = {id, name, departure_time,arrival_time, economySeats, businessSeats, regularSeats};
+                Cruise cruise = {id, name, departure_time, arrival_time, economySeats, businessSeats, regularSeats};
                 cruises.push_back(cruise);
             }
         }
@@ -69,33 +77,32 @@ void printSeatStatus(const Cruise &cruise)
     cout << "Economy Seats: ";
     for (int i = 0; i < cruise.economySeats; ++i)
     {
-        cout << "O ";
+        cout << GREEN << "O " << RESET;
     }
     for (int i = cruise.economySeats; i < 10; ++i)
     {
-        cout << "X ";
+        cout << RED << "X " << RESET;
     }
     cout << "\nBusiness Seats: ";
     for (int i = 0; i < cruise.businessSeats; ++i)
     {
-        cout << "O ";
+        cout << GREEN << "O " << RESET;
     }
     for (int i = cruise.businessSeats; i < 5; ++i)
     {
-        cout << "X ";
+        cout << RED << "X " << RESET;
     }
     cout << "\nRegular Seats: ";
     for (int i = 0; i < cruise.regularSeats; ++i)
     {
-        cout << "O ";
+        cout << GREEN << "O " << RESET;
     }
     for (int i = cruise.regularSeats; i < 10; ++i)
     {
-        cout << "X ";
+        cout << RED << "X " << RESET;
     }
     cout << "\n";
 }
-
 // Function to print the status of seats in a cruise
 void getCruiseStatus(const vector<Cruise> &cruises, const string &cruiseId)
 {
@@ -108,8 +115,8 @@ void getCruiseStatus(const vector<Cruise> &cruises, const string &cruiseId)
 
         cout << "Cruise ID: " << cruise.id << "\n";
         cout << "Cruise Name: " << cruise.name << "\n";
-        cout<<"Departure Time: "<<cruise.departure_time<<"\n";
-        cout<<"Arrival Time: "<<cruise.arrival_time<<"\n";
+        cout << "Departure Time: " << cruise.departure_time << "\n";
+        cout << "Arrival Time: " << cruise.arrival_time << "\n";
 
         printSeatStatus(cruise);
 
@@ -315,7 +322,7 @@ void getPassengerStatus(const vector<Passenger> &passengers, const string &passe
 // Function to add a new cruise (admin-only operation)
 void addNewCruise(vector<Cruise> &cruises)
 {
-    string id, name,departure_time,arrival_time;
+    string id, name, departure_time, arrival_time;
     int economySeats, businessSeats, regularSeats;
     double economyPrice, businessPrice, regularPrice;
     cout << "Enter new cruise ID: ";
@@ -323,10 +330,10 @@ void addNewCruise(vector<Cruise> &cruises)
     cout << "Enter new cruise name: ";
     cin.ignore(); // Clear the input buffer
     getline(cin, name);
-    cout<<"Enter Departure Time: "<<endl;
-    cin>>departure_time;
-    cout<<"Enter Arrival Time: "<<endl;
-    cin>>arrival_time;
+    cout << "Enter Departure Time: " << endl;
+    cin >> departure_time;
+    cout << "Enter Arrival Time: " << endl;
+    cin >> arrival_time;
     cout << "Enter number of economy seats: ";
     cin >> economySeats;
     cout << "Enter price for economy class: ";
@@ -340,7 +347,7 @@ void addNewCruise(vector<Cruise> &cruises)
     cout << "Enter price for regular class: ";
     cin >> regularPrice;
 
-    Cruise newCruise = {id, name, departure_time,arrival_time, economySeats, businessSeats, regularSeats, economyPrice, businessPrice, regularPrice};
+    Cruise newCruise = {id, name, departure_time, arrival_time, economySeats, businessSeats, regularSeats, economyPrice, businessPrice, regularPrice};
     cruises.push_back(newCruise);
     cout << "New cruise added successfully." << endl;
 
@@ -420,8 +427,7 @@ void adminMenu(vector<Cruise> &cruises)
 }
 int main()
 {
-    cout << "WELCOME TO KPIT CRUISE BOOKING PORTAL" << endl;
-
+    cout << BLUE << "WELCOME TO KPIT CRUISE BOOKING PORTAL" << RESET << endl;
     // Read existing cruise details from file
     vector<Cruise> cruises = readCruisesFromFile("cruise.txt");
 
@@ -432,15 +438,15 @@ int main()
     do
     {
         cout << "\nOptions:\n";
-        cout << "s - Schedule passenger\n";
+        cout << CYAN << "s - Schedule passenger\n";
         cout << "c - Cancel booking\n";
         cout << "p - Passenger status\n";
         cout << "f - Cruise status\n";
         cout << "N - Admin\n";
-        cout << "q - Quit\n";
+        cout << "q - Quit\n"
+             << RESET;
         cout << "Enter choice: ";
         cin >> choice;
-
         switch (choice)
         {
         case 's':
@@ -511,6 +517,3 @@ int main()
 
     return 0;
 }
-
-
-
